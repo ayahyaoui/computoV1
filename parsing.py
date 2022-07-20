@@ -102,7 +102,7 @@ def get_token(s:str):
 	return tkn, s
 
 
-def dealing_second_member(expr:list) -> list:
+def dealing_second_member(expr:list):
 	""" Update the tokenized expression so that there is no second member
 	expression, (similar to rearranging an expression to get 'expression = 0')
 	Parameters:
@@ -130,7 +130,7 @@ def dealing_second_member(expr:list) -> list:
 
 
 
-def second_member_sign_update(r_member:list) -> list:
+def second_member_sign_update(r_member:list):
 	""" Changes the sign of the right member of the expression
 	when it is necessary to take into account the displacement to the
 	right side of the equal symbol.
@@ -272,7 +272,7 @@ def _rule_2_(expr:list) -> bool:
 	return True
 
 
-def _rule_3_(expr:list) -> bool:
+def _rule_3_(expr:list):
 	"""
 	Verifies the number variables in the expr.
 	"""

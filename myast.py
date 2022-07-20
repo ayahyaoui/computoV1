@@ -6,7 +6,7 @@
 # _____________________   |Definition des constantes|   _____________________ #
 # =========================================================================== #
 
-dct_tokens = {"(" : 1,
+dict_tokens = {"(" : 1,
 			  ")" : 2,
 			  "+" : 3,
 			  "-" : 4,
@@ -38,18 +38,18 @@ class Token():
 		self.value = t
 		self.group = 1
 		if t in list("()+-*/=^ˆ"):
-			self.type_token = dct_tokens[t]
+			self.type_token = dict_tokens[t]
 		elif t.isdigit():
-			self.type_token = dct_tokens["NUMBER"]
+			self.type_token = dict_tokens["NUMBER"]
 			self.value = int(t)
 		elif isfloat(t):
-			self.type_token = dct_tokens["NUMBER"]
+			self.type_token = dict_tokens["NUMBER"]
 			self.value = float(t)
 		elif t.isalpha():
-			self.type_token = dct_tokens["VARIABLE"]
+			self.type_token = dict_tokens["VARIABLE"]
 			self.value = t
 		else:
-			self.type_token = dct_tokens["UNKNOWN"]
+			self.type_token = dict_tokens["UNKNOWN"]
 			self.value = t
 
 
@@ -68,7 +68,13 @@ class Token():
 			tk_type = "ERROR"
 		return str(self.value)
 		#return "Tkn{" + str(self.value) + ":" + tk_type + "}"
+	def is_bracket(self):
+		return self.type_token == dict_tokens['('] or self.type_token == dict_tokens[')']
 
+	def is_operator(self):
+		if self.value in list("+-*/ˆ^"):
+			return True
+		return False
 
 class MyMonomial(Token):
 	def __init__(self, coefficient, exposant):
@@ -139,17 +145,3 @@ def isfloat(s:str) -> bool:
 		return False
 	return True
 
-
-def is_operator(token:Token) -> bool:
-	""" Functions to determine if the token is an operator type.
-	Parameters:
-	-----------
-		* token [Token instance]: a Token instance.
-	Return:
-	-------
-		* True: token is an operator.
-		* False: token is not an operator.
-	"""
-	if token.value in list("+-*/ˆ^"):
-		return True
-	return False
