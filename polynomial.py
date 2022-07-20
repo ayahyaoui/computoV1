@@ -157,52 +157,6 @@ class Polynomial():
 		return roots
 
 
-	def lambda_polynom(self):
-		""" Constructs the lambda function f corresponding to the polynomial.
-		Return:
-		-------
-			f [lambda function]: polynomial function.
-		"""
-		lst_p = list(range(len(self.coefs)))
-		lst_p.reverse()
-		f = lambda x: sum([a * power(x, p) for a, p in zip(self.coefs, lst_p)])
-		self.lambda_p = f
-		return f
-
-
-	def lambda_first_derivative(self):
-		""" Constructs the lambda function df corresponding to the polynomial
-		first derivative.
-		Return:
-		-------
-			df [lambda function]: polynomial derivative function.
-		"""
-		lst_p = list(range(len(self.coefs)))
-		lst_p.reverse()
-		lst_p = lst_p[:-1]
-		d_coeffs = self.coefs[:-1]
-		print(f"valeurs de coeffs: {self.coeffs} --- valeurs de d_coeffs = {d_coeffs}")
-		print(f"valeurs de lst_p = {lst_p}")
-		df = lambda x: sum([a * p * power(x, p - 1) for a, p in zip(d_coefs, lst_p)])
-		self.lambda_dp = df
-		return df
-
-
-	def lambda_second_derivative(self):
-		""" Constructs the lambda function d2f corresponding to the polynomial
-		second derivative.
-		Return:
-		-------
-			d2f [lambda function : polynomial second derivative function.
-		"""
-		lst_p = list(range(len(self.coefs)))
-		lst_p.reverse()
-		lst_p = lst_p[:-2]
-		d2_coeffs = self.coefs[:-2]
-		d2f = lambda x: sum([a * p * (p - 1) * power(x, p - 2) for a, p in zip(d2_coefs, lst_p)])
-		self.lambda_d2p = d2f
-		return d2f
-
 
 	@staticmethod
 	def _print_roots(roots):
@@ -328,6 +282,7 @@ class Polynomial():
 		"""Displays core function.
 		Calls the appropriate display function according to the polynomial degree.
 		"""
+		print("degre", self.degree)
 		if self.degree > 3:
 			self._summarize_degree_other()
 		elif self.degree == 3:

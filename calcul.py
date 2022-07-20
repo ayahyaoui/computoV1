@@ -18,7 +18,7 @@ def calcul_addition(first_operand, second_operand, is_add):
                 affichage("", "", "Probleme doublon le travail a mal ete fait+", token, dict_power[token.exposant], 'ˆ', token.exposant)
             dict_power[token.exposant] = token
 
-        elif token.type_token != dct_tokens['+']:
+        elif token.type_token != dict_tokens['+']:
             affichage("", "", "Probleme signe non attendu ici", first_operand)
             raise Exception 
     for token in second_operand:
@@ -32,7 +32,7 @@ def calcul_addition(first_operand, second_operand, is_add):
                 if not is_add:
                     token.coefficient *= -1
                 dict_power[token.exposant] = token
-        elif token.type_token != dct_tokens['+']:           
+        elif token.type_token != dict_tokens['+']:           
             affichage("", "", "Probleme signe non attendu ici", first_operand)
             raise Exception
     result = [value for key, value in dict_power.items()]
@@ -74,12 +74,12 @@ def calcul(first_operand, second_operand, operator):
     test_s = str(first_operand) + ' ' +  str(operator) + ' ' +  str(second_operand)
 
     try:
-        if operator.type_token == dct_tokens['+'] or operator.type_token == dct_tokens['-']:
-            coeff = 1 if operator.type_token == dct_tokens['+'] else -1
-            result = calcul_addition(first_operand, second_operand, operator.type_token == dct_tokens['+'])
-        elif operator.type_token == dct_tokens['*'] or operator.type_token == dct_tokens['/']:
-            result = calcul_multiple(first_operand, second_operand, operator.type_token == dct_tokens['*'])
-        elif operator.type_token == dct_tokens['ˆ']:
+        if operator.type_token == dict_tokens['+'] or operator.type_token == dict_tokens['-']:
+            coeff = 1 if operator.type_token == dict_tokens['+'] else -1
+            result = calcul_addition(first_operand, second_operand, operator.type_token == dict_tokens['+'])
+        elif operator.type_token == dict_tokens['*'] or operator.type_token == dict_tokens['/']:
+            result = calcul_multiple(first_operand, second_operand, operator.type_token == dict_tokens['*'])
+        elif operator.type_token == dict_tokens['ˆ']:
             result = calcul_powerV2(first_operand, second_operand)
         else:
             affichage("", "", "pas encore gerer", operator)

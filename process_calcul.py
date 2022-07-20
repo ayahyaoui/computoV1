@@ -56,9 +56,9 @@ def     developpement(list_token):
     while index < len(list_token) and index < 42:
         first_operand = []
         second_operand = []
-        while index < len(list_token) and not is_operator(list_token[index]):
+        while index < len(list_token) and not list_token[index].is_operator():
             index += 1
-        if not is_operator(list_token[index]):
+        if not list_token[index].is_operator():
             break
         operator = list_token.pop(index)
         index -= 1

@@ -2,8 +2,8 @@
 # ____________________  |Importation des lib/packages|   ____________________ #
 # =========================================================================== #
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+#import matplotlib.pyplot as plt
+#import seaborn as sns
 import sys
 
 from parsing import parser, check_validity
@@ -47,62 +47,39 @@ def process(list_test, b_bonus=False):
 	"""
 	... Docstring ...
 	"""
-	try:
-		if VERBOSE > 1:
-			affichage("", "", f"{bcolors.OKBLUE}liste avant conversion :{bcolors.ENDC}", list_test)
-		list_converti = convert_expression(list_test)
-		if VERBOSE > 1:
-			affichage("", "", f"{bcolors.OKBLUE}liste apres conversion :{bcolors.ENDC}", list_converti)
-		if VERBOSE > 2:			
-			affichage("", "", f"{bcolors.OKBLUE}DEVELOPPEMENT:\n\n{bcolors.ENDC}", list_converti)
-		list_developper = developpement(list_converti)
-		if VERBOSE > 1:
-			affichage("", "", f"{bcolors.OKBLUE}\nliste apres developpement:{bcolors.ENDC}", list_developper)
-		list_expression = [elem for elem in list_developper if isinstance(elem, MyMonomial)\
-				and elem.coefficient != 0]
-		list_expression = sorted(list_expression, key=lambda val: val.exposant)[::-1]
-	except:
-		exit()
+	#try:
+	if VERBOSE > 1:
+		affichage("", "", f"{bcolors.OKBLUE}liste avant conversion :{bcolors.ENDC}", list_test)
+	list_converti = convert_expression(list_test)
+	if VERBOSE > 1:
+		affichage("", "", f"{bcolors.OKBLUE}liste apres conversion :{bcolors.ENDC}", list_converti)
+	if VERBOSE > 2:			
+		affichage("", "", f"{bcolors.OKBLUE}DEVELOPPEMENT:\n\n{bcolors.ENDC}", list_converti)
+	list_developper = developpement(list_converti)
+	if VERBOSE > 1:
+		affichage("", "", f"{bcolors.OKBLUE}\nliste apres developpement:{bcolors.ENDC}", list_developper)
+	list_expression = [elem for elem in list_developper if isinstance(elem, MyMonomial)\
+			and (elem.coefficient != 0 or elem.exposant == 0)]
+	#if list_expression == []:
+	#	list_expression = [MyMonomial(0,0)]
+	list_expression = sorted(list_expression, key=lambda val: val.exposant)[::-1]
 	if VERBOSE > 0:
 		affichage("", "", f"{bcolors.OKBLUE}\nForme developper :{bcolors.ENDC}",  ' + '.join(map(str,list_expression)))
+#except:
+#	print(f"{bcolors.RED}CATCH ERROR: {bcolors.ENDC}",e)
+#	print(f"{bcolors.OKBLUE}AU REVOIR{bcolors.ENDC}")
+#	exit()
 	polynom = process_polynom(list_expression, b_bonus)
 	return polynom		
-	#except Exception as e:
-	#	print(e)
-	#	print("AU REVOIR")
+#except Exception as e:
+#	print(e)
 
-
-def simple_graph(polynom):
-	"""
-	...Docstring..
-	"""
-	nb_r = len(polynom.coefs) - 1
-	f = polynom.lambda_polynom()
-	c_x = polynom.coefs[1] / (nb_r * polynom.coefs[0])
-	x = np.linspace(start= -c_x - 6, stop=-c_x + 6, num=50 * (polynom.degree + 1))
-	y = list(map(polynom.lambda_p, x))
-	real_roots = []
-	for r in polynom.roots:
-		if isinstance(r, complex):
-			continue
-		real_roots.append(r)
-	real_roots_x = np.array(real_roots)
-	real_roots_y = np.zeros(real_roots_x.shape[0])
-	
-	sns.set_theme()
-	ax = sns.lineplot(x=x, y=y)
-	sns.scatterplot(x=real_roots_x, y = real_roots_y, ax=ax)
-	ax.set(xlabel = "$x$", ylabel = "$P(x)$")
-	ax.axhline(0, c="black", lw=0.5)
-	ax.axvline(0, c="black", lw=0.5)
-	plt.show()
 
 
 # =========================================================================== #
 # ______________________________    |MAIN|     ______________________________ #
 # =========================================================================== #
 if __name__ == "__main__":
-	b_graphic = False
 	args = sys.argv
 	
 	# --- Parsing --- #
@@ -124,7 +101,3 @@ if __name__ == "__main__":
 
 		# --- Verbose, information on the polynomial --- #
 		polynom.summarize()
-	
-		# --- Graphic representation --- #
-		if b_graphic and polynom.degree > 0:
-			simple_graph(polynom)

@@ -296,7 +296,7 @@ def _rule_4_(expr:list) -> bool:
 	ttl_pow = 0
 	lock = 0
 	for tkn in expr:
-		if tkn.type_token == 8 or tkn.type_token == dct_tokens['ˆ']: # meaning value is '^' or 'ˆ'
+		if tkn.type_token == 8 or tkn.type_token == dict_tokens['ˆ']: # meaning value is '^' or 'ˆ'
 			ttl_pow = 2
 		if (ttl_pow > 0) and (tkn.type_token == 1): # meaning value is '('
 			lock += 1

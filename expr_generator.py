@@ -1,7 +1,7 @@
 # =========================================================================== #
 # ____________________  |Importation des lib/packages|   ____________________ #
 # =========================================================================== #
-import numpy as np
+import numpy.random as rand
 from string import ascii_letters, digits
 
 AUTHORIZED_OPERATORS = ['+', '-', '*', '/', '^']
@@ -13,9 +13,9 @@ MAX_DIGITS = 10
 # _____________________    |Definition des fonctions|   _____________________ #
 # =========================================================================== #
 def wrap_construct_nb():
-	n_digits = np.random.randint(1 , MAX_DIGITS , 1)
-	neg = np.random.randint(2)
-	floating_pt = np.random.randint(MAX_DIGITS)
+	n_digits = rand.randint(1 , MAX_DIGITS , 1)
+	neg = rand.randint(2)
+	floating_pt = rand.randint(MAX_DIGITS)
 	
 	n = construct_nb(n_digits, neg, floating_pt)
 	
@@ -27,7 +27,7 @@ def construct_nb(n_digits, neg, floating_pt):
 	print(f"     -neg = {neg}  --  n_digits = {n_digits}  --  floating_pt = {floating_pt}")
 	if neg:
 		res += '-'
-	dgts = np.random.randint(9, size=n_digits)
+	dgts = rand.randint(9, size=n_digits)
 	dgts = list(dgts)
 	dgts = [str(elem) for elem in dgts]
 	l = 0
@@ -40,7 +40,7 @@ def construct_nb(n_digits, neg, floating_pt):
 
 
 def draw_operator():
-	i = np.random.randint(0,len(AUTHORIZED_OPERATORS))
+	i = rand.randint(0,len(AUTHORIZED_OPERATORS))
 	return AUTHORIZED_OPERATORS[i]
 
 

@@ -85,6 +85,17 @@ def convert_naturel(list_token):
 
     return result
 
+
+"""
+    prend une expression brut(cf parsing) et la transforme en expression suivant la notation polonaise inverse
+    implemenetation de Algorithme Shunting-yard 
+    On considere que toute les operation implementer sont assiosiatif agauche 
+        c'est a dire aue a * b * c = (a * b) * c 
+        pas forcement assioatif (par exemple "-" "/")
+
+        donc a ^ b ^ c ==> (a ^ b) ^ c
+
+"""
 def convert_expression(list_token):
     list_result = []
     list_conversion = []
@@ -97,31 +108,48 @@ def convert_expression(list_token):
             list_result.append(token)
 
         elif token.is_operator():
-            # Version 2
-            index = len(list_conversion) - 1
+            
+        # version 3 for avec pop(-1)
+            for _ in range(len(list_conversion) - 1):
+                if not list_conversion[-1].is_operator() or priority_cmp(token, list_conversion[-1]) > 0:
+                    break
+                list_result.append(list_conversion.pop(-1))
+        # fin version 
             # while len(list_conversion) > 0 and list_conversio[-1].is_operator()
+            """
+            # Version 2 while 
+            index = len(list_conversion) - 1
             while (index >= 0 and list_conversion[index].is_operator()):
                 if priority_cmp(token, list_conversion[index]) <= 0:
                     list_result.append(list_conversion.pop(index))
                 index -= 1
+            # fin version   
+            """ 
             list_conversion.append(token)
         elif token.type_token == dict_tokens['(']:
             list_conversion.append(token)
             nb_open_bracket += 1
         elif token.type_token == dict_tokens[')']:
             if nb_open_bracket == 0:
-                raise Exception("Probleme de parenthese !! (aurais du être rerperé plus tôt!)")
-                return False # A changer (catch ...)
-
-            #Version 2
+                raise Exception("Bracket issue!! (should have been catch earlier!)")
+            # version 3 for avec pop(-1)
+            for _ in range(len(list_conversion) - 1):
+                if list_conversion[-1].type_token == dict_tokens['(']:
+                    break
+                list_result.append(list_conversion.pop(-1))
+            # fin version 
+            """
+            #Version 2 (while)
             index = len(list_conversion) - 1
             while (index > 0 and list_conversion[index].type_token != dict_tokens['(']):
                 list_result.append(list_conversion.pop(index))
                 index -= 1
+            fin version while
+            """
             if  dict_tokens['('] != list_conversion.pop(-1).type_token: # eject last open parenthesis
-                raise Exception("Probleme de parenthese !! (aurais du être rerperé plus tôt!)")
+                raise Exception("Bracket issue!! (should have been catch earlier!)")
             nb_open_bracket -= 1
-        else:# Issue
+        else:# Issue theoriquement impossible car cense etre "catch plus tôt"
             print("Unknown", token.type_token == dict_tokens["UNKNOWN"])
             raise Exception(token.value,"Probleme pas encore geré")
     list_result += list_conversion[::-1]

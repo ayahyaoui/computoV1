@@ -5,7 +5,7 @@ from utils import *
 
 def    get_next_operator(list_token):
     for index, value in enumerate(list_token):
-        if is_operator(value):
+        if value.is_operator():
             return index, value
     return -1        
 
@@ -34,7 +34,7 @@ def developpement(list_token):
         second_operand = []
 
         
-        while index < len(list_token) and not is_operator(list_token[index]):
+        while index < len(list_token) and not list_token[index].is_operator():
             index += 1
         
         if index == len(list_token):
@@ -48,10 +48,10 @@ def developpement(list_token):
         if VERBOSE > 2:
             print(list_token[:index], f"{bcolors.FAIL}",
         first_operand, operator, second_operand,  f"{bcolors.ENDC}", list_token[index:])
-        try:
-            tmp_result = calcul(first_operand, second_operand, operator)
-        except:
-            raise Exception
+        #try:
+        tmp_result = calcul(first_operand, second_operand, operator)
+        #except:
+        #    raise Exception
         if VERBOSE > 2:
             print(list_token[:index], f"{bcolors.OKGREEN}", tmp_result,  f"{bcolors.ENDC}", list_token[index:])
         size_result = len(tmp_result)
